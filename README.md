@@ -1,4 +1,4 @@
-# 🖥️ Sistema de login em Python 🐍 
+# 🖥️ Sistema-CRUD-para-restaurante 🐍 
 
 <br>Código criado na linguagem em python para desenvolvimento de atividade acadêmica.
 
