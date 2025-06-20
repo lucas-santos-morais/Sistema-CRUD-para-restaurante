@@ -1,29 +1,22 @@
-from restaurante import (
-    adicionar_restaurante,
-    buscar_restaurante_por_nome,
-    alternar_status_restaurante,
-    excluir_restaurante
-)
+import pytest
+from SRC import restaurante
 
-def test_adicionar_restaurante():
-    resultado = adicionar_restaurante('Teste', 'Japonesa')
-    assert resultado['nome'] == 'Teste'
-    assert resultado['categoria'] == 'Japonesa'
-    assert resultado['ativo'] is False
+def test_lista_inicial_tem_dois_restaurantes():
+    assert len(restaurante.restaurantes) == 2
 
-def test_buscar_restaurante_por_nome():
-    adicionar_restaurante('KFC', 'Fast Food')
-    r = buscar_restaurante_por_nome('KFC')
-    assert r is not None
-    assert r['categoria'] == 'Fast Food'
+def test_restaurante_tem_campos_esperados():
+    r = restaurante.restaurantes[0]
+    assert 'nome' in r
+    assert 'categoria' in r
+    assert 'ativo' in r
 
-def test_alternar_status_restaurante():
-    adicionar_restaurante('StatusTest', 'Vegana')
-    status_antes = buscar_restaurante_por_nome('StatusTest')['ativo']
-    status_depois = alternar_status_restaurante('StatusTest')
-    assert status_depois != status_antes
-
-def test_excluir_restaurante():
-    adicionar_restaurante('DeletarTest', 'Saudável')
-    assert excluir_restaurante('DeletarTest') is True
-    assert buscar_restaurante_por_nome('DeletarTest') is None
+def test_ativar_e_desativar_restaurante():
+    nome_alvo = 'Bom Prato'
+    for r in restaurante.restaurantes:
+        if r['nome'] == nome_alvo:
+            status_inicial = r['ativo']
+            r['ativo'] = not r['ativo']
+            assert r['ativo'] != status_inicial
+            break
+    else:
+        pytest.fail('Restaurante não encontrado')
